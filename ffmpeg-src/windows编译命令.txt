@@ -1,0 +1,20 @@
+windows编译ffmpeg环境搭建：http://blog.yundiantech.com/?log=blog&id=35
+
+1.编译环境准备
+下载安装MSYS2，如果是直接使用MINGW编译可以直接make，vs编译 详细参照：VS2015编译ffmpeg 3.4.2 配置；
+注意：.使用vs编译必须  ./configure --toolchain=msvc， 编译会报错误是因为代码中含有 CC_IDENT 未定义（存在一些log打印语句中），搜索注释掉即可编译通过
+
+2.裁剪
+configure 参数： ffmpeg ./configure 的相关参数说明
+以下是 ffmpeg 编译 只带 RTSP 264 265 avi 本地文件以及网络URL，软解码以及DXVA2硬解， 
+
+./configure --toolchain=msvc --prefix=bin --enable-static  --disable-everything --disable-doc --disable-debug --enable-gpl  --enable-version3 --enable-w32threads --enable-avformat --enable-swscale --enable-avdevice --enable-avutil --enable-demuxer=rtsp --enable-demuxer=avi --enable-demuxer=h264 --enable-demuxer=hevc  --enable-demuxer=rtsp --enable-muxer=avi --enable-muxer=h264 --enable-muxer=hevc --enable-decoder=h264 --enable-decoder=hevc --enable-parser=h264  --enable-parser=hevc --enable-hwaccel=h264_dxva2 --enable-hwaccel=hevc_dxva2 --enable-network --enable-protocol=tcp --enable-protocol=udp   --enable-protocol=file --enable-ffmpeg   --enable-thumb
+
+
+#禁用一切只留下dshow和mjpeg 主要是用于windows下读取摄像头。
+./configure --toolchain=msvc --prefix="E:/build/ffmpeg" --enable-static  --disable-everything --disable-doc --disable-debug --enable-gpl  --enable-version3 --enable-w32threads --enable-avformat --enable-swscale --enable-avdevice --enable-avutil --enable-demuxer=mjpeg --enable-muxer=mjpeg --enable-decoder=mjpeg  --enable-parser=mjpeg  --enable-protocol=file --enable-ffmpeg  --enable-indev=dshow --disable-yasm
+
+
+
+
+
