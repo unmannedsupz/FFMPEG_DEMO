@@ -1,4 +1,4 @@
-windows编译ffmpeg环境搭建：http://blog.yundiantech.com/?log=blog&id=35
+﻿windows编译ffmpeg环境搭建：http://blog.yundiantech.com/?log=blog&id=35
 
 1.编译环境准备
 下载安装MSYS2，如果是直接使用MINGW编译可以直接make，vs编译 详细参照：VS2015编译ffmpeg 3.4.2 配置；
@@ -17,4 +17,32 @@ configure 参数： ffmpeg ./configure 的相关参数说明
 
 
 
+1、若要调试FFMPEG，在编译时应当在configure时，加上
 
+       --enable-debug
+
+       --disable-asm
+
+注：在调试x264时就应该加上这两个配置选项，方能调试
+
+2、make install 会执行strip命令，strip命令就会去掉FFMPEG的symbols（符号表），这就相当于--disable-debug这个默认选项install了，怎么避免strip命令将先前的配置给去掉呢？
+
+在configure时加上 --disable-stripping选项
+
+看原帖讨论地址：用gdb调试ffmpeg出现“ no debuging symbols find”错误的原因讨论：
+http://bbs.chinavideo.org/archiver/?tid-54.html
+
+3、在调试FFMPEG时，应当调试ffmpeg_g，而不是ffmpeg；为什么呢
+
+4、在调试时，无法进入某个函数进行单步调试，如何解决？
+
+
+应该把config.mak文件中的 -O都去掉；
+
+更有效的方式是在configure时加上--disable-stripping
+
+
+5、在调试时，没有按照函数顺序的执行，怎么办？
+
+
+configure时要关闭优化，即加上 --disable-optimizations
