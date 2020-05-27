@@ -1,4 +1,57 @@
-﻿windows编译ffmpeg环境搭建：http://blog.yundiantech.com/?log=blog&id=35
+﻿Help options:
+  --help                   print this message
+  --quiet                  Suppress showing informative output
+  --list-decoders          show all available decoders
+  --list-encoders          show all available encoders
+  --list-hwaccels          show all available hardware accelerators
+  --list-demuxers          show all available demuxers
+  --list-muxers            show all available muxers
+  --list-parsers           show all available parsers
+  --list-protocols         show all available protocols
+  --list-bsfs              show all available bitstream filters
+  --list-indevs            show all available input devices
+  --list-outdevs           show all available output devices
+  --list-filters           show all available filters
+
+Individual component options:
+  --disable-everything     disable all components listed below
+  --disable-encoder=NAME   disable encoder NAME
+  --enable-encoder=NAME    enable encoder NAME
+  --disable-encoders       disable all encoders
+  --disable-decoder=NAME   disable decoder NAME
+  --enable-decoder=NAME    enable decoder NAME
+  --disable-decoders       disable all decoders
+  --disable-hwaccel=NAME   disable hwaccel NAME
+  --enable-hwaccel=NAME    enable hwaccel NAME
+  --disable-hwaccels       disable all hwaccels
+  --disable-muxer=NAME     disable muxer NAME
+  --enable-muxer=NAME      enable muxer NAME
+  --disable-muxers         disable all muxers
+  --disable-demuxer=NAME   disable demuxer NAME
+  --enable-demuxer=NAME    enable demuxer NAME
+  --disable-demuxers       disable all demuxers
+  --enable-parser=NAME     enable parser NAME
+  --disable-parser=NAME    disable parser NAME
+  --disable-parsers        disable all parsers
+  --enable-bsf=NAME        enable bitstream filter NAME
+  --disable-bsf=NAME       disable bitstream filter NAME
+  --disable-bsfs           disable all bitstream filters
+  --enable-protocol=NAME   enable protocol NAME
+  --disable-protocol=NAME  disable protocol NAME
+  --disable-protocols      disable all protocols
+  --enable-indev=NAME      enable input device NAME
+  --disable-indev=NAME     disable input device NAME
+  --disable-indevs         disable input devices
+  --enable-outdev=NAME     enable output device NAME
+  --disable-outdev=NAME    disable output device NAME
+  --disable-outdevs        disable output devices
+  --disable-devices        disable all devices
+  --enable-filter=NAME     enable filter NAME
+  --disable-filter=NAME    disable filter NAME
+  --disable-filters        disable all filters
+
+  
+windows编译ffmpeg环境搭建：http://blog.yundiantech.com/?log=blog&id=35
 
 1.编译环境准备
 下载安装MSYS2，如果是直接使用MINGW编译可以直接make，vs编译 详细参照：VS2015编译ffmpeg 3.4.2 配置；
@@ -15,6 +68,12 @@ configure 参数： ffmpeg ./configure 的相关参数说明
 ./configure --toolchain=msvc --prefix="E:/build/ffmpeg" --enable-static  --disable-everything --disable-doc --disable-debug --enable-gpl  --enable-version3 --enable-w32threads --enable-avformat --enable-swscale --enable-avdevice --enable-avutil --enable-demuxer=mjpeg --enable-muxer=mjpeg --enable-decoder=mjpeg  --enable-parser=mjpeg  --enable-protocol=file --enable-ffmpeg  --enable-indev=dshow --disable-yasm
 
 
+#在上面的基础上新增支持读取bmp图片
+./configure --toolchain=msvc --prefix="E:/build/ffmpeg-3.3.7" --enable-static  --disable-everything --disable-doc --disable-debug --enable-gpl  --enable-version3 --enable-w32threads --enable-avformat --enable-swscale --enable-avdevice --enable-avutil --enable-demuxer=mjpeg --enable-muxer=mjpeg --enable-decoder=mjpeg  --enable-parser=mjpeg  --enable-demuxer=image2 --enable-demuxer=image2_alias_pix --enable-demuxer=image2_brender_pix --enable-demuxer=image2pipe --enable-demuxer=image_bmp_pipe --enable-demuxer=image_dds_pipe --enable-demuxer=image_dpx_pipe --enable-demuxer=image_exr_pipe --enable-demuxer=image_j2k_pipe --enable-demuxer=image_jpeg_pipe --enable-demuxer=image_jpegls_pipe --enable-demuxer=image_pam_pipe --enable-demuxer=image_pbm_pipe --enable-demuxer=image_pcx_pipe --enable-demuxer=image_pgm_pipe --enable-demuxer=image_pgmyuv_pipe --enable-demuxer=image_pictor_pipe --enable-demuxer=image_png_pipe --enable-demuxer=image_ppm_pipe --enable-demuxer=image_psd_pipe --enable-demuxer=image_qdraw_pipe --enable-demuxer=image_sgi_pipe --enable-demuxer=image_sunrast_pipe --enable-demuxer=image_tiff_pipe --enable-demuxer=image_webp_pipe --enable-demuxer=image_xpm_pipe  --enable-parser=bmp --enable-decoder=bmp --enable-protocol=file --enable-ffmpeg  --enable-indev=dshow --disable-yasm
+
+
+windows编译ffmpeg4.x编译报错解决：
+Fix error C2440: libavcodec/dxva2.c<524>, “初始化”：无法从”GUID”转换为”unsigned long”：将libavcodec/dxva2.c的第519行由.DecodeProfile = decoder_guid,调整为.DecodeProfile = decoder_guid.Data1,；
 
 
 1、若要调试FFMPEG，在编译时应当在configure时，加上
@@ -43,6 +102,5 @@ http://bbs.chinavideo.org/archiver/?tid-54.html
 
 
 5、在调试时，没有按照函数顺序的执行，怎么办？
-
 
 configure时要关闭优化，即加上 --disable-optimizations
