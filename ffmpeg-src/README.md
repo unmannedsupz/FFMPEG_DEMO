@@ -22,9 +22,7 @@ x264下载地址：
 http://ftp.videolan.org/pub/videolan/x264/snapshots/  
 tar xvf x264-snapshot-20191024-2245-stable.tar.bz2   
 cd x264-snapshot-20191024-2245-stable  
-./configure --enable-shared --enable-static --prefix=../x264 --extra-cflags="-fPIC"  
-#这里一定要开--enable-shared后面ffmpeg才能连接的进去，加上-fPIC都没用，没搞明白是为何。  
-#如果想静态连接x264到ffmpeg的话，就手动删除x264/lib下面的so文件。  
+./configure --enable-static --prefix=../x264 --enable-pic 
 make -j16  
 make install  
   
