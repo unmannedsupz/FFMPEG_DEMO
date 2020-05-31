@@ -22,7 +22,7 @@ x264下载地址：
 http://ftp.videolan.org/pub/videolan/x264/snapshots/  
 tar xvf x264-snapshot-20191024-2245-stable.tar.bz2   
 cd x264-snapshot-20191024-2245-stable  
-./configure --enable-static --prefix=../x264 --enable-pic 
+./configure --enable-static --prefix=../x264 --enable-pic   
 make -j16  
 make install  
   
