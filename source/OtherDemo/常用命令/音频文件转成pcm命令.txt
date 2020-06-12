@@ -1,2 +1,0 @@
-生成单声道 16bit的pcm文件。
-ffmpeg.exe -i "D:/in.mp3" -f s16le -ac 1  D:/out.pcm
